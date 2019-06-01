@@ -6,7 +6,6 @@
     lines = 10000000;
   };
   aliases = {
-    ls = "ls -h --color=auto";
     la = "ls -la";
     ll = "ls -l";
     l = "ll";

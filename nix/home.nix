@@ -2,10 +2,11 @@
 
 {
   imports = [
-    ../cfg/unix-base.nix
-    ../cfg/git.nix
-    ../cfg/kak.nix
-    ../cfg/fish.nix
+    ../config/unix-base.nix
+    ../config/git.nix
+    ../config/kak.nix
+    ../config/fzf.nix
+    ../config/fish.nix
   ];
   xdg.enable = true;
 }
