@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     # fzf and fd go together for use in vim and on commandline
-    fd
+    fzf fd
     ripgrep
     jq
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
