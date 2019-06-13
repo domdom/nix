@@ -5,9 +5,6 @@
   programs.git = {
     enable = true;
 
-    userName = "domdom";
-    userEmail = "dom@dfer.me";
-
     aliases = {
       # One-line log
       l  = "!git lt --all";
