@@ -2,7 +2,7 @@
 
 # install nix
 # this depends on os, if we are on nix-os, this is not required
-[ ! -d /nix ] && sh <(curl https://nixos.org/nix/install) --daemon || exit 1
+[ ! -d /nix ] && sh <(curl https://nixos.org/nix/install) --daemon
 
 mkdir -p "$HOME/.config/nixpkgs"
 
