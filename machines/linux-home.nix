@@ -2,9 +2,12 @@
 
 {
   imports = [
-    ./base-home.nix
-
+    ../config/unix-base.nix
+    ../config/git.nix
+    ../config/kak.nix
+    ../config/fzf.nix
     # graphical stuff?
+    # bspwm etc
   ];
   xdg.enable = true;
 
