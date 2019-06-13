@@ -25,14 +25,20 @@ in
         # TODO: Remove this once this bug in fish 3.0 is removed.
         # Fish reorders the path given by bash's environment
         set PATH $HOME/.nix-profile/bin (string match -v $HOME/.nix-profile/bin $PATH)
+        # Then add local bin directory
+        set PATH $HOME/.local/bin (string match -v $HOME/.local/bin $PATH)
       '';
     };
 
     programs.bash = {
       enable = true;
       bashrcExtra = ''
-        source $HOME/.nix-profile/etc/profile.d/nix.sh
-        exec fish
+        [ -f "$HOME/.bashrc_local" ] && source "$HOME/.bashrc_local"
       '';
     };
+
+    home.file.".bashrc_local".text = ''
+        [ -f "$HOME/.config/shell/proxy.bash" ] && source "$HOME/.config/shell/proxy.bash"
+        exec fish
+      '';
   }
