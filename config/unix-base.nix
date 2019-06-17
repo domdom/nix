@@ -1,4 +1,4 @@
-{ pkgs, lib, ...}:
+{ pkgs, lib, config, ...}:
 
 {
   home.packages = with pkgs; [
@@ -18,5 +18,11 @@
   programs.home-manager = {
     enable = true;
     path = https://github.com/rycee/home-manager/archive/master.tar.gz;
+  };
+
+  home.sessionVariables = {
+    # Don't create 'less' history files in home dir
+    LESSKEY="${config.xdg.configHome}/less/lesskey";
+    LESSHISTFILE="${config.xdg.cacheHome}/less/history";
   };
 }
