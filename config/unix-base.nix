@@ -6,7 +6,6 @@
     fzf fd
     ripgrep
     jq
-  ] ++ lib.optionals pkgs.stdenv.isDarwin [
     # Better userland for macOS
     coreutils
     findutils

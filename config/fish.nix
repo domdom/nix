@@ -14,6 +14,20 @@ in
           echo -n '$ '
         end
 
+        function save_cmd_to_bash --on-event fish_preexec
+          echo $argv >> "$HOME/.bash_history"
+        end
+      '';
+      interactiveShellInit = ''
+        bind \cj history-search-forward
+        bind \ck history-search-backward
+
+        ${optionalString config.programs.fzf.enable ''
+          source ${pkgs.fzf}/share/fzf/key-bindings.fish
+          fzf_key_bindings
+        ''}
+
+        # Override the fzf search function to filter out duplicates
         function fzf-history-widget -d "Show command history"
           set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
           begin
@@ -37,20 +51,13 @@ in
           end
           commandline -f repaint
         end
-      '';
-      interactiveShellInit = ''
-        bind \cj history-search-forward
-        bind \ck history-search-backward
 
-        ${optionalString config.programs.fzf.enable ''
-          source ${pkgs.fzf}/share/fzf/key-bindings.fish
-          fzf_key_bindings
-        ''}
         # TODO: Remove this once this bug in fish 3.0 is removed.
         # Fish reorders the path given by bash's environment
         set PATH $HOME/.nix-profile/bin (string match -v $HOME/.nix-profile/bin $PATH)
         # Then add local bin directory
         set PATH $HOME/.local/bin (string match -v $HOME/.local/bin $PATH)
+
       '';
     };
 
