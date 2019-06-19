@@ -8,6 +8,8 @@
     ../config/kak.nix
     ../config/fzf.nix
 
+    ../config/nvim.nix
+
     ../config/fish.nix
     ../config/alacritty.nix
   ];

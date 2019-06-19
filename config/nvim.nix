@@ -3,7 +3,11 @@
 {
   programs.neovim = {
     enable = true;
-
-    configure = { };
+    configure = {
+      customRC = builtins.readFile vim/vimrc;
+      plug.plugins = with pkgs.vimPlugins; [
+        vim-plug
+      ];
+    };
   };
 }

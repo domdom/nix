@@ -1,0 +1,234 @@
+call plug#begin('~/.local/share/vim/plugged')
+
+" Themes and visuals
+Plug 'domdom/oceanic-next'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" The fuzzy finder
+Plug 'junegunn/fzf.vim'
+
+" Adds automatic session management
+Plug 'tpope/vim-obsession'
+" Automatically load session based on folder
+Plug 'dhruvasagar/vim-prosession'
+
+" Git gutter
+Plug 'mhinz/vim-signify'
+" Git plugin
+Plug 'tpope/vim-fugitive'
+
+" Syntax highlighting
+Plug 'rhysd/vim-llvm'
+Plug 'bfrg/vim-cpp-modern'
+Plug 'LnL7/vim-nix'
+Plug 'vito-c/jq.vim'
+
+" Ctags
+Plug 'majutsushi/tagbar'
+
+call plug#end()
+" =======================================
+" Basic Setup
+" =======================================
+set encoding=utf-8
+
+" =======================================
+" Keyboard mappings
+" =======================================
+let mapleader = " "
+let g:mapleader = " "
+
+" Edit and source vimrc
+nnoremap <leader>ve :vsplit $MYVIMRC<cr>
+nnoremap <leader>vs :source $MYVIMRC<cr>
+
+" Previous buffer and next buffer
+nmap <C-h> :bp<CR>
+nmap <C-l> :bn<CR>
+
+" =======================================
+" Display
+" =======================================
+set linespace=3
+set ruler
+set title
+set cmdheight=1
+set showtabline=2
+set nowrap
+
+set cursorline
+
+set list listchars=tab:»·,trail:·
+
+set wildignore+=*.o
+set ttyfast
+
+" =======================================
+" Theme
+" =======================================
+syntax enable
+if exists('+termguicolors')
+    set termguicolors
+endif
+let g:oceanic_next_terminal_bold = 1
+colorscheme OceanicNext
+set background=dark
+
+" =======================================
+" Airline
+" =======================================
+set statusline=2
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline_powerline_fonts = 0
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_symbols.paste = ''
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.readonly = 'r'
+let g:airline_symbols.linenr = ''
+
+" =======================================
+" Scrolling
+" =======================================
+set scrolloff=8
+set sidescrolloff=0
+set sidescroll=1
+set backspace=indent,eol,start " Allow backspecing over everything in insert mode
+
+" =======================================
+" Tabbing
+" =======================================
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set smarttab " Smart tabbing
+set autoindent
+
+" =======================================
+" History Length
+" =======================================
+set history=10000
+
+" =======================================
+" Files
+" =======================================
+if !isdirectory($HOME."/.cache/vim/undodir")
+    call mkdir($HOME."/.cache/vim/undodir", "p")
+endif
+set undodir=~/.cache/vim/undodir
+set undofile
+set directory=/tmp/
+
+" =======================================
+" TagBar
+" =======================================
+nmap <F8> :TagbarToggle<CR>
+
+" =======================================
+" FZF Fuzzy finder
+" =======================================
+nmap <C-p> :Fzfiles<CR>
+nmap <C-g> :Rg<CR>
+nmap <C-e> :Buffers<CR>
+
+nmap <C-f> :Blines<CR>
+
+command! -bang -nargs=* FzFind
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
+
+" Perform rg <cword> where cword is the word under the cursor. Fzf search the results
+command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(expand('<cword>')), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
+
+command! -bang -nargs=* Fzfiles
+            \ call fzf#vim#files(
+            \   <q-args>,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%', '?'),
+            \   <bang>0)
+
+" =======================================
+" Filetype detection
+" =======================================
+filetype on
+filetype plugin indent on
+
+" =======================================
+" Searching
+" =======================================
+set showcmd
+set incsearch
+set ignorecase " Don't search by case
+set hlsearch
+
+" =======================================
+" Various
+" =======================================
+set mousehide     " Hide the mouse
+set hidden        " Hide hidden files
+set nospell
+set number        " Show line numbers
+set numberwidth=1 " Line number width
+set mouse=a
+set nostartofline " Does not move cursor to start of line when switching buffers
+set noerrorbells  " No beeps.
+
+set foldmethod=indent
+set foldnestmax=10
+set nofoldenable
+set foldlevel=2
+
+" Disable the bell sound
+set visualbell
+set t_vb=
+
+
+" System Clipboard
+" =======================================
+set clipboard^=unnamed,unnamedplus
+vmap <LeftRelease> "*ygv
+
+" =======================================
+" Autocmd
+" =======================================
+
+if has("autocmd")
+    " Have Vim jump to the last position when
+    " reopening a file
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+                \| exe "normal! g'\"" | endif
+
+    " .def files are often cpp files in clang
+    au BufNewFile,BufRead *.{def,inc} set filetype=cpp
+    " For llvm and clang files we want to have tab size of 2 spaces
+    au BufWinEnter */{clang,llvm}/*
+                \ setlocal tabstop=2      |
+                \ setlocal shiftwidth=2   |
+                \ setlocal softtabstop=2
+
+    " Don't auto-add comments on newline
+    au BufRead,BufNewFile * set formatoptions-=cro
+
+    " Allow clipboard to persist after vim closes
+    au VimLeave * call system("xsel -ib", getreg('+'))
+
+    au VimEnter * echo '>^.^<'
+endif
