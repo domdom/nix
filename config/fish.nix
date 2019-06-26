@@ -11,7 +11,10 @@ in
       shellAbbrs = settings.aliases;
       promptInit = ''
         function fish_prompt
-          echo -n '$ '
+          set_color brgreen
+          echo -n (pwd | sed -e "s|^$HOME|~|")
+          set_color normal
+          echo -n ' $ '
         end
 
         function save_cmd_to_bash --on-event fish_preexec
@@ -35,6 +38,8 @@ in
         set PATH $HOME/.nix-profile/bin (string match -v $HOME/.nix-profile/bin $PATH)
         # Then add local bin directory
         set PATH $HOME/.local/bin (string match -v $HOME/.local/bin $PATH)
+        # Add my bin scripts
+        set PATH $HOME/bin (string match -v $HOME/bin $PATH)
 
         ${optionalString config.programs.fzf.enable ''
           source ${pkgs.fzf}/share/fzf/key-bindings.fish
