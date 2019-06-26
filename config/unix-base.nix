@@ -23,5 +23,8 @@
     # Don't create 'less' history files in home dir
     LESSKEY="${config.xdg.configHome}/less/lesskey";
     LESSHISTFILE="${config.xdg.cacheHome}/less/history";
+
+    # use less as pager
+    MANPAGER="${pkgs.less}/bin/less";
   };
 }
