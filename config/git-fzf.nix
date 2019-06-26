@@ -70,8 +70,8 @@ in
     programs.fish.interactiveShellInit = mkIf enableFishIntegration ''
       ${concatMapStrings ({name, ...}: ''
           function ${name}-widget
-            ${name} | read -l result; or return
-            commandline -i $result
+            ${name} | read -l result;
+            and commandline -i $result
             commandline -f repaint
           end
       '') git-fzf-functions}
