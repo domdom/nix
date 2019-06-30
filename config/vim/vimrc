@@ -1,34 +1,7 @@
-call plug#begin('~/.local/share/vim/plugged')
-
-" Themes and visuals
-Plug 'domdom/oceanic-next'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-" The fuzzy finder
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-
-" Adds automatic session management
-Plug 'tpope/vim-obsession'
-" Automatically load session based on folder
-Plug 'dhruvasagar/vim-prosession'
-
-" Git gutter
-Plug 'mhinz/vim-signify'
-" Git plugin
-Plug 'tpope/vim-fugitive'
-
-" Syntax highlighting
-Plug 'rhysd/vim-llvm'
-Plug 'bfrg/vim-cpp-modern'
-Plug 'LnL7/vim-nix'
-Plug 'vito-c/jq.vim'
-
-" Ctags
-Plug 'majutsushi/tagbar'
-
-call plug#end()
+" =======================================
+" Plugin Config
+" =======================================
+let g:deoplete#enable_at_startup = 1
 " =======================================
 " Basic Setup
 " =======================================
@@ -72,30 +45,14 @@ syntax enable
 if exists('+termguicolors')
     set termguicolors
 endif
-let g:oceanic_next_terminal_bold = 1
-colorscheme OceanicNext
-set background=dark
+
+colorscheme one
+set background=light
 
 " =======================================
 " Airline
 " =======================================
-set statusline=2
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline_powerline_fonts = 0
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_symbols.paste = ''
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.readonly = 'r'
-let g:airline_symbols.linenr = ''
+set laststatus=2
 
 " =======================================
 " Scrolling
@@ -165,6 +122,26 @@ command! -bang -nargs=* Fzfiles
             \   <bang>0 ? fzf#vim#with_preview('up:60%')
             \           : fzf#vim#with_preview('right:50%', '?'),
             \   <bang>0)
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+autocmd! FileType fzf
+autocmd  FileType fzf set laststatus=0 noshowmode noruler
+            \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 " =======================================
 " Filetype detection
