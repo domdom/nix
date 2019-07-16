@@ -45,6 +45,10 @@ in
           source ${pkgs.fzf}/share/fzf/key-bindings.fish
           fzf_key_bindings
         ''}
+
+        if test -f ~/.fish_local
+          source ~/.fish_local
+        end
       '';
     };
 
