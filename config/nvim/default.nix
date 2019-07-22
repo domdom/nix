@@ -11,13 +11,32 @@ let
       rev = "50b95cbbcd09c046121367d49039710e9dc9c15f";
     };
   };
+  vim-cpp-modern = buildVimPluginFrom2Nix {
+    pname = "vim-cpp-modern";
+    version = "2019-07-01";
+    src = fetchGit {
+      url = "git@github.com:bfrg/vim-cpp-modern";
+      ref = "master";
+      rev = "9d571f17d194ba694191aa0c6b65b73477103e1d";
+    };
+  };
+  vim-llvm = buildVimPluginFrom2Nix {
+    pname = "vim-llvm";
+    version = "1";
+    src = fetchGit {
+      url = "git@github.com:rhysd/vim-llvm";
+      ref = "master";
+      rev = "64f121c447154debbe0ee6670380190bb58ae4aa";
+    };
+  };
 in
   {
     programs.neovim = {
       enable = true;
       vimAlias = true;
       configure = {
-        customRC = builtins.readFile vim/vimrc;
+        customRC = builtins.readFile ./vimrc;
+
         plug.plugins = with pkgs.vimPlugins; [
           # The plugin manager
           vim-plug
@@ -42,8 +61,9 @@ in
 
           # Syntaxes
           # vim-llvm # not available
-          # vim-cpp-modern # not available
+          vim-cpp-modern
           vim-nix
+          vim-llvm
 
           # build plugin
           vim-fish

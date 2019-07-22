@@ -9,9 +9,11 @@
     ../config/fzf.nix
     ../config/git-fzf.nix
 
-    ../config/nvim.nix
-
     ../config/fish.nix
+    ../config/nvim
+
+    ../config/bat.nix
+    # terminal
     ../config/alacritty.nix
   ];
   xdg.enable = true;

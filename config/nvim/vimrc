@@ -47,7 +47,7 @@ if exists('+termguicolors')
 endif
 
 colorscheme one
-set background=light
+set background=dark
 
 " =======================================
 " Airline
@@ -201,6 +201,11 @@ if has("autocmd")
                 \ setlocal tabstop=2      |
                 \ setlocal shiftwidth=2   |
                 \ setlocal softtabstop=2
+
+    au BufWinEnter */gcc/*
+                \ setlocal tabstop=8      |
+                \ setlocal shiftwidth=8   |
+                \ setlocal softtabstop=8
 
     " Don't auto-add comments on newline
     au BufRead,BufNewFile * set formatoptions-=cro
