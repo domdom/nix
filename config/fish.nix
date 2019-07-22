@@ -11,7 +11,7 @@ in
       shellAbbrs = settings.aliases;
       promptInit = ''
         function fish_prompt
-          set_color brgreen
+          set_color -o
           echo -n (pwd | sed -e "s|^$HOME|~|")
           set_color normal
           echo -n ' $ '
