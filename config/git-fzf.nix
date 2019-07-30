@@ -18,6 +18,10 @@ let
 
     ${body}
   '';
+  cat = if config.programs.bat.enable then
+      "${pkgs.bat}/bin/bat --color=always --style=numbers,changes,header"
+  else
+      "${pkgs.cat}/bin/cat";
 
   git-fzf-functions = [
     {
@@ -37,7 +41,7 @@ let
       body = ''
         git -c color.status=always status --short |
         fzf-down -m --ansi --nth 2..,.. \
-        --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
+        --preview '(git diff --color=always -- {-1} | sed 1,4d; ${cat} {-1}) | head -500' |
         cut -c4- | sed 's/.* -> //'
       '';
     }
@@ -70,8 +74,8 @@ in
     programs.fish.interactiveShellInit = mkIf enableFishIntegration ''
       ${concatMapStrings ({name, ...}: ''
           function ${name}-widget
-            ${name} | read -l result;
-            and commandline -i $result
+            set -l results (${name});
+            and commandline -i "$results"
             commandline -f repaint
           end
       '') git-fzf-functions}
