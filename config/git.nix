@@ -23,8 +23,6 @@
       ds = "diff --staged";
 
       st = "status";
-      se = "!git status --short | fzf -m --height 40% --layout=reverse | awk '{print $2}' | xargs -r nvim";
-      sf = "!git status --short | fzf -m --height 40% --layout=reverse | awk '{print $2}'";
 
       co = "commit";
       amend = "commit --amend";
@@ -50,7 +48,7 @@
       };
 
       pager = {
-        log = ''less -F -J -j2 -p "'HEAD ->'"'';
+        log = ''less -FRX'';
       };
     };
   };
