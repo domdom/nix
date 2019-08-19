@@ -13,6 +13,8 @@
     ../config/nvim
 
     ../config/bat.nix
+
+    ../config/ccache.nix
     # graphical stuff?
     # bspwm etc
   ];
