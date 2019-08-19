@@ -15,6 +15,8 @@
     ../config/bat.nix
     # terminal
     ../config/alacritty.nix
+
+    ../config/ccache.nix
   ];
   xdg.enable = true;
 }
