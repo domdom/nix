@@ -1,13 +1,17 @@
-{pkgs, ...}:
+{config, pkgs, ...}:
 
-{
-  home.packages = with pkgs; [
-    ccache
-  ];
+let
+  ccache = pkgs.callPackage ./ccache {};
+in
+  {
+    home.packages = [
+      ccache
+    ];
 
-  home.file.".ccache/ccache.conf".text = ''
-      base_dir  = $PWD
+    home.file.".ccache/ccache.conf".text = ''
+      debug     = true
       cache_dir = $HOME/data/ccache
+      log_file  = $PWD/log
       max_size  = 300G
-  '';
-}
+    '';
+  }
