@@ -34,40 +34,37 @@ in
     programs.neovim = {
       enable = true;
       vimAlias = true;
-      configure = {
-        customRC = builtins.readFile ./vimrc;
 
-        plug.plugins = with pkgs.vimPlugins; [
-          # The plugin manager
-          vim-plug
-          # Color scheme
-          vim-one
+      extraConfig = builtins.readFile ./vimrc;
 
-          deoplete-nvim
-          ## prosession isn't available, so wont bother with obsession
-          # Adds automatic session management
-          # vim-obsession
-          # Automatically load session based on folder
-          # vim-prosession
+      plugins = with pkgs.vimPlugins; [
+        # Color scheme
+        vim-one
 
-          # Git gutter
-          vim-signify
-          # Git plugin
-          vim-fugitive
+        deoplete-nvim
+        ## prosession isn't available, so wont bother with obsession
+        # Adds automatic session management
+        # vim-obsession
+        # Automatically load session based on folder
+        # vim-prosession
 
-          # fzf
-          fzfWrapper
-          fzf-vim
+        # Git gutter
+        vim-signify
+        # Git plugin
+        vim-fugitive
 
-          # Syntaxes
-          # vim-llvm # not available
-          vim-cpp-modern
-          vim-nix
-          vim-llvm
+        # fzf
+        fzfWrapper
+        fzf-vim
 
-          # build plugin
-          vim-fish
-        ];
-      };
+        # Syntaxes
+        # vim-llvm # not available
+        vim-cpp-modern
+        vim-nix
+        vim-llvm
+
+        # build plugin
+        vim-fish
+      ];
     };
   }
