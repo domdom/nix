@@ -56,7 +56,9 @@ in
       enable = true;
       bashrcExtra = ''
         [ -f "$HOME/.bashrc_local" ] && source "$HOME/.bashrc_local"
-        exec fish
+        if [[ $- == *i* ]]; then
+          exec fish
+        fi
       '';
     };
   }
