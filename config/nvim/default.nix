@@ -58,7 +58,6 @@ in
         fzf-vim
 
         # Syntaxes
-        # vim-llvm # not available
         vim-cpp-modern
         vim-nix
         vim-llvm
