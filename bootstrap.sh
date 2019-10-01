@@ -6,14 +6,14 @@
 
 mkdir -p "$HOME/.config/nixpkgs"
 
-prefix=${1}
+prefix=${1:-$(hostname)}
 
-config="machines/$prefix-config.nix"
+config="machines/$prefix/config.nix"
 if [ -e "$config" ]; then
     ln -sf "$(realpath "$config")" "$HOME/.config/nixpkgs/config.nix"
 fi
 
-home="machines/$prefix-home.nix"
+home="machines/$prefix/home.nix"
 if [ -e "$home" ]; then
     ln -sf "$(realpath "$home")" "$HOME/.config/nixpkgs/home.nix"
 else
