@@ -4,6 +4,8 @@
   home.packages = with pkgs; [
     # fzf and fd go together for use in vim and on commandline
     fzf fd
+    # like fzf, but in rust
+    skim
     ripgrep
     jq
     # Better userland for macOS
@@ -12,6 +14,8 @@
     gawk
     gnugrep
     gnused
+    rsync
+    tree
   ];
 
   programs.home-manager = {
