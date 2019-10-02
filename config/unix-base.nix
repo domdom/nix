@@ -1,6 +1,20 @@
 { pkgs, lib, config, ...}:
 
 {
+  imports = [
+    ./kak.nix
+    ./git.nix
+    ./fzf.nix
+    ./git-fzf.nix
+
+    ./fish.nix
+    ./nvim
+
+    ./bat.nix
+
+    ./ccache.nix
+  ];
+
   home.packages = with pkgs; [
     # fzf and fd go together for use in vim and on commandline
     fzf fd

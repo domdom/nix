@@ -3,20 +3,8 @@
 {
   imports = [
     ../../config/unix-base.nix
-
-    ../../config/kak.nix
-    ../../config/git.nix
-    ../../config/fzf.nix
-    ../../config/git-fzf.nix
-
-    ../../config/fish.nix
-    ../../config/nvim
-
-    ../../config/bat.nix
-
-    ../../config/ccache.nix
     # graphical stuff?
-    # bspwm etc
+    # bspwm, terminal etc
   ];
   xdg.enable = true;
 
