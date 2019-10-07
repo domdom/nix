@@ -30,6 +30,7 @@
     gnused
     rsync
     tree
+    clang-tools
   ];
 
   programs.home-manager = {
