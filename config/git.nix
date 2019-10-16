@@ -7,9 +7,9 @@
 
     aliases = {
       # One-line log
-      l  = "!git lt --all";
+      la  = "!git l --all";
 
-      lt = ''!git log --graph --source --format=tformat:'%C(bold blue)%h%C(yellow):%Creset%s %C(green)%an%Creset%C(dim white) (%ar)%C(auto)%n%-d%Creset' '';
+      l = ''!git log --graph --source --format=tformat:'%C(bold blue)%h%C(yellow):%Creset%s %C(green)%an%Creset%C(dim white) (%ar)%C(auto)%n%-d%Creset' '';
 
       # Verbose log
       v = ''log --graph --all --source --stat \

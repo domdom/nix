@@ -28,7 +28,7 @@ let
       bind = "h";
       name = "git-fzf-commits";
       body = ''
-        git lt --graph --color=always |
+        git l --graph --color=always |
         fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
         --header 'Press CTRL-S to toggle sort' \
         --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always | head -'$(tput lines) |
@@ -51,7 +51,7 @@ let
       body = ''
         git branch -a --color=always | grep -v '/HEAD\s' | sort |
         fzf-down --ansi --multi --tac --preview-window right:70% \
-        --preview 'git lt --color=always $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$(tput lines) |
+        --preview 'git l --color=always $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$(tput lines) |
         sed 's/^..//' | cut -d' ' -f1 |
         sed 's#^remotes/##'
       '';
