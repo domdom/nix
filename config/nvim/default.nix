@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 with pkgs.vimUtils;
 let
@@ -65,5 +65,8 @@ in
         # build plugin
         vim-fish
       ];
+    };
+    home.sessionVariables = {
+      EDITOR = "${config.programs.neovim.finalPackage}/bin/nvim";
     };
   }
