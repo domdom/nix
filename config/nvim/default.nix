@@ -62,7 +62,10 @@ in
         vim-nix
         vim-llvm
 
-        # build plugin
+        # Adds elm syntax and other features
+        elm-vim
+
+        # syntax highlighting for fish_shell
         vim-fish
       ];
     };
