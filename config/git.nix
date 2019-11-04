@@ -12,7 +12,9 @@
       l = ''!git log --graph --source --format=tformat:'%C(bold blue)%h%C(yellow):%Creset%s %C(green)%an%Creset%C(dim white) (%ar)%C(auto)%n%-d%Creset' '';
 
       # Verbose log
-      v = ''log --graph --all --source --stat \
+      va = "!git v --all";
+
+      v = ''log --graph --source --stat \
               --format=format:'%w(0,0,1)%C(cyan)%H%Creset%C(auto)%d%Creset%n%n%C(yellow)%cD%Creset %C(green)(%cr)%Creset%n%C(yellow)%an %C(dim white)<%ae>%n%n%Creset%s%n%n%-b%n' '';
 
       out = ''log --graph HEAD --not --remotes --source \
