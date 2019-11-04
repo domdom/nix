@@ -1,0 +1,197 @@
+#!/usr/bin/env python3
+import re
+import sys
+import json
+
+from shlex import quote
+
+import argparse
+
+import subprocess
+
+parse_desktop = re.compile(r'^(\d+)\|(.*)$')
+
+def _get_ws(desktop_name):
+    m = parse_desktop.match(desktop_name)
+    if m == None:
+        print ('Could not parse a desktop name: ' + repr(desktop_name), file=sys.stderr)
+        exit()
+
+    return (int(m.group(1)), m.group(2))
+
+def _get_ws_name(desktop_name):
+    return _get_ws(desktop_name)[-1]
+
+def _get_ws_index(desktop_name):
+    print((desktop_name))
+    print(re.compile(r'^(\d+)\|').split(desktop_name, 2))
+    print(_get_ws(desktop_name))
+    return _get_ws(desktop_name)[0]
+
+def _get_ds_name(workspace_name, index):
+    name = workspace_name#.replace("'", r"\'")
+    return f"{index}|{name}"
+
+def _do_call(*program):
+    process = subprocess.Popen(program, stdout=subprocess.PIPE)
+    out, err = process.communicate()
+
+    if err:
+        print ('Something went wrong! :' + str(err), file=sys.stderr)
+        exit()
+    return out.decode('utf8')
+
+def _get_wm_state():
+    state_str = _do_call('bspc', 'wm', '-d')
+    return json.loads(state_str)
+
+# CONST
+def get_current():
+    out = _do_call('bspc', 'query', '-D', '-d', '.focused', '--names')
+    return out
+
+def get_left():
+    current = get_current()
+    index, workspace = _get_ws(current)
+    return _get_ds_name(workspace, index - 1)
+
+def get_right():
+    current = get_current()
+    index, workspace = _get_ws(current)
+    return _get_ds_name(workspace, index + 1)
+
+def get_up_or_down(current, workspaces):
+    last_workspace = current
+    for workspace in workspaces:
+        if workspace == current:
+            break
+        last_workspace = workspace
+    return last_workspace
+
+
+def get_up():
+    current = get_current()
+    index, workspace = _get_ws(current)
+    return get_last(get_up_or_down(workspace, get_workspaces()))
+
+def get_down():
+    current = get_current()
+    index, workspace = _get_ws(current)
+    return get_last(get_up_or_down(workspace, reversed(get_workspaces())))
+
+def get_nth(n):
+    workspace = _get_ws_name(get_current())
+    return _get_ds_name(workspace, n - 1)
+
+def get_workspaces():
+    desktop_names = _do_call('bspc', 'query', '-D', '--names').strip().split('\n')
+
+    workspaces = []
+    for desktop in desktop_names:
+        index, name = _get_ws(desktop)
+        if index == 0:
+            workspaces.append(name)
+
+    return workspaces
+
+def get_last(workspace):
+    state = _get_wm_state()
+
+    monitor = state['focusedMonitorId']
+    history = state['focusHistory']
+
+    history = filter(lambda x: x['monitorId'] == monitor, history)
+    history = list(map(lambda h: h['desktopId'], history))
+
+    ws_map = {}
+    for m in state['monitors']:
+        for d in m['desktops']:
+            ws_map[d['id']] = d['name']
+
+    for desktopId in reversed(history):
+        name = ws_map[desktopId]
+        if _get_ws_name(name) == workspace:
+            return name
+
+    return _get_ds_name(workspace, 0)
+
+
+def get_config_desktops(config_file):
+    config = json.load(open(config_file))
+    cmd = 'bspc monitor '
+    desktops = []
+    for w in config:
+        for i in range(w['desktops']):
+            desktops.append(_get_ds_name(w['name'], i))
+
+    desktops = map(quote, desktops)
+
+    return f"bspc monitor -d {' '.join(desktops)}"
+
+
+def main():
+    def cmd_left(args):
+        return get_left()
+    def cmd_right(args):
+        return get_right()
+
+    def cmd_up(args):
+        return get_up()
+    def cmd_down(args):
+        return get_down()
+
+    def cmd_nth(args):
+        return get_nth(args.n)
+
+    def cmd_last(args):
+        return get_last(args.workspace)
+
+    def cmd_init(args):
+        return get_config_desktops(args.config_file)
+
+    def cmd_workspaces(args):
+        return '\n'.join(get_workspaces())
+
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers()
+
+    left = subparsers.add_parser('left', help='Get desktop to the left.')
+    left.set_defaults(func=cmd_left)
+
+    right = subparsers.add_parser('right', help='Get desktop to the right.')
+    right.set_defaults(func=cmd_right)
+
+    up = subparsers.add_parser('up', help='Get the last focused desktop on the previous workspace.')
+    up.set_defaults(func=cmd_up)
+
+    down = subparsers.add_parser('down', help='Get the last focused desktop on the next workspace.')
+    down.set_defaults(func=cmd_down)
+
+    nth = subparsers.add_parser('nth', help='Get the nth desktop on the current workspace.')
+    nth.add_argument('n', type=int, help='The desktop number.')
+    nth.set_defaults(func=cmd_nth)
+
+    last = subparsers.add_parser('last', help='Get the last focused desktop for the given workspace.')
+    last.add_argument('workspace', help='The workspace name.')
+    last.set_defaults(func=cmd_last)
+
+    workspaces = subparsers.add_parser('workspaces', help='Get a list of workspaces')
+    workspaces.set_defaults(func=cmd_workspaces)
+
+    init = subparsers.add_parser('init', help='Initialize the workspaces from a config file.')
+    init.add_argument('config_file', help='The config file path.')
+    init.set_defaults(func=cmd_init)
+
+    if len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+    else:
+        args = parser.parse_args()
+        print (args.func(args))
+
+main()
+
+
+
+
+
+
