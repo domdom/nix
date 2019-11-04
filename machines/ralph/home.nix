@@ -5,6 +5,7 @@
     ../../config/unix-base.nix
     # graphical stuff?
     # bspwm, terminal etc
+    ../../config/graphical.nix
   ];
   xdg.enable = true;
 
