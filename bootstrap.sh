@@ -2,22 +2,28 @@
 
 # install nix
 # this depends on os, if we are on nix-os, this is not required
-[ ! -d /nix ] && sh <(curl https://nixos.org/nix/install) --daemon
+[ ! -d /nix -o ! "$(ls /nix)" ] && sh <(curl https://nixos.org/nix/install) --daemon && echo "You should reboot now"
 
 mkdir -p "$HOME/.config/nixpkgs"
 
+# Should reboot here
+
 prefix=${1:-$(hostname)}
 
-config="machines/$prefix/config.nix"
+config="$HOME/nix/machines/$prefix/config.nix"
 if [ -e "$config" ]; then
-    ln -sf "$(realpath "$config")" "$HOME/.config/nixpkgs/config.nix"
+    ln -sf "$config" "$HOME/.config/nixpkgs/config.nix"
 fi
 
-home="machines/$prefix/home.nix"
+home="$HOME/nix/machines/$prefix/home.nix"
 if [ -e "$home" ]; then
-    ln -sf "$(realpath "$home")" "$HOME/.config/nixpkgs/home.nix"
+    ln -sf "$home" "$HOME/.config/nixpkgs/home.nix"
 else
     echo "'$home' does not exist!"
     exit 1
 fi
-nix-shell -v -p home-manager --run "home-manager switch"
+# nix-shell -v -p home-manager --run "home-manager switch"
+
+export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
+
+nix-shell '<home-manager>' -A install
