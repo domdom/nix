@@ -29,6 +29,15 @@ let
       rev = "64f121c447154debbe0ee6670380190bb58ae4aa";
     };
   };
+  vim-groovy = buildVimPluginFrom2Nix {
+    pname = "vim-groovy";
+    version = "1";
+    src = fetchGit {
+      url = "git@github.com:modille/groovy.vim";
+      ref = "master";
+      rev = "392419dafb8a2f0a93f605ba5b1e90ba48f1644d";
+    };
+  };
 in
   {
     programs.neovim = {
@@ -61,6 +70,7 @@ in
         vim-cpp-modern
         vim-nix
         vim-llvm
+        vim-groovy
 
         # Adds elm syntax and other features
         elm-vim

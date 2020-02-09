@@ -207,6 +207,9 @@ if has("autocmd")
                 \ setlocal shiftwidth=8   |
                 \ setlocal softtabstop=8
 
+    " Jenkins -> groovy
+    au BufRead,BufNewFile *.jenkins set filetype=groovy
+
     " Don't auto-add comments on newline
     au BufRead,BufNewFile * set formatoptions-=cro
 
