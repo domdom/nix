@@ -85,7 +85,7 @@ if !isdirectory($HOME."/.cache/vim/undodir")
 endif
 set undodir=~/.cache/vim/undodir
 set undofile
-set directory=/tmp/
+set directory=/tmp//
 
 " =======================================
 " TagBar
