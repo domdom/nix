@@ -15,9 +15,12 @@
     ./broot.nix
 
     ./ccache.nix
+
+    ./pass.nix
   ];
 
   home.packages = with pkgs; [
+    home-manager
     # fzf and fd go together for use in vim and on commandline
     fzf fd
     # like fzf, but in rust
@@ -33,14 +36,10 @@
     rsync
     tree
     clang-tools
+    cmake
 
     irssi
   ];
-
-  programs.home-manager = {
-    enable = true;
-    path = https://github.com/rycee/home-manager/archive/master.tar.gz;
-  };
 
   home.sessionVariables = {
     # Don't create 'less' history files in home dir

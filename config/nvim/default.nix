@@ -38,8 +38,21 @@ let
       rev = "392419dafb8a2f0a93f605ba5b1e90ba48f1644d";
     };
   };
+  vim-elm-syntax = buildVimPluginFrom2Nix {
+    pname = "vim-elm-syntax";
+    version = "1";
+    src = fetchGit {
+      url = "git@github.com:andys8/vim-elm-syntax";
+      ref = "master";
+      rev = "d614325a037982489574012e4db04d7f8f134c17";
+    };
+  };
 in
   {
+    home.packages = with pkgs; [
+      # elmPackages.elm-language-server
+      elmPackages.elm-format
+    ];
     programs.neovim = {
       enable = true;
       vimAlias = true;
@@ -63,17 +76,18 @@ in
         vim-fugitive
 
         # fzf
-        fzfWrapper
+        #fzfWrapper
         fzf-vim
 
-        # Syntaxes
+        ## Syntaxes
         vim-cpp-modern
         vim-nix
         vim-llvm
         vim-groovy
 
         # Adds elm syntax and other features
-        elm-vim
+        vim-elm-syntax
+        coc-nvim
 
         # syntax highlighting for fish_shell
         vim-fish

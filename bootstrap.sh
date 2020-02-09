@@ -22,8 +22,8 @@ else
     echo "'$home' does not exist!"
     exit 1
 fi
-# nix-shell -v -p home-manager --run "home-manager switch"
 
 export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
 
-nix-shell '<home-manager>' -A install
+nix-shell -v -p home-manager --run "home-manager switch"
+#nix-shell '<home-manager>' -A install

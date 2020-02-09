@@ -181,7 +181,7 @@ set t_vb=
 
 " System Clipboard
 " =======================================
-set clipboard^=unnamed,unnamedplus
+" set clipboard^=unnamed,unnamedplus
 vmap <LeftRelease> "*ygv
 
 " =======================================
