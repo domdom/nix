@@ -36,13 +36,24 @@
       r = "rebase -i --autostash --autosquash";
     };
 
+    includes = [
+      {
+        path = "~/work/.gitconfig";
+        condition = "gitdir:~/work/**";
+      }
+      {
+        path = "~/personal/.gitconfig";
+        condition = "gitdir:~/personal/**";
+      }
+      { path = "$GIT_DIR/../.gitconfig"; }
+      { path = "$GIT_DIR/../../.gitconfig"; }
+      { path = "$GIT_DIR/../../../.gitconfig"; }
+      { path = "$GIT_DIR/../../../../.gitconfig"; }
+    ];
+
     extraConfig = {
       push = {
         default = "current";
-      };
-
-      include = {
-        path = "~/.gitconfig_local";
       };
 
       absorb = {
