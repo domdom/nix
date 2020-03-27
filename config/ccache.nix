@@ -1,16 +1,16 @@
 {config, pkgs, ...}:
 
-let
-  ccache = pkgs.callPackage ./ccache {};
-in
-  {
-    home.packages = [
-      ccache
-    ];
+{
+  home.packages = with pkgs; [
+    ccache
+  ];
 
-    home.file.".ccache/ccache.conf".text = ''
-      debug     = true
+  xdg.configFile."ccache/config".text = ''
       cache_dir = ${config.home.homeDirectory}/data/ccache
       max_size  = 300G
-    '';
-  }
+  '';
+
+  home.sessionVariables = {
+    CCACHE_CONFIGPATH="${config.xdg.configHome}/ccache/config";
+  };
+}
