@@ -181,7 +181,7 @@ set t_vb=
 
 " System Clipboard
 " =======================================
-" set clipboard^=unnamed,unnamedplus
+set clipboard^=unnamed,unnamedplus
 vmap <LeftRelease> "*ygv
 
 " =======================================
@@ -216,7 +216,7 @@ if has("autocmd")
     au BufNewFile,BufReadPost */bugs/* let b:tagbar_ignore = 1
 
     " Allow clipboard to persist after vim closes
-    au VimLeave * call system("xsel -ib", getreg('+'))
+    au VimLeave * call system("to_clipboard", getreg('+'))
 
     au VimEnter * echo '>^.^<'
 endif
