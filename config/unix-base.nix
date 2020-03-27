@@ -28,6 +28,7 @@
     ripgrep
     jq
     # Better userland for macOS
+    file
     coreutils
     findutils
     gawk
@@ -42,6 +43,10 @@
   ];
 
   home.sessionVariables = {
+    # Home cleanup
+    GTK2_RC_FILES="${config.xdg.configHome}/gtk-2.0/gtkrc";
+    GTK_RC_FILES="${config.xdg.configHome}/gtk-3.0/gtkrc";
+
     # Don't create 'less' history files in home dir
     LESSKEY="${config.xdg.configHome}/less/lesskey";
     LESSHISTFILE="${config.xdg.cacheHome}/less/history";
