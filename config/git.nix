@@ -2,8 +2,13 @@
 
 
 {
+  home.packages = with pkgs; [
+    gitAndTools.diff-so-fancy
+  ];
   programs.git = {
     enable = true;
+
+    package = pkgs.gitAndTools.gitFull;
 
     aliases = {
       # One-line log
@@ -28,6 +33,9 @@
 
       co = "commit";
       amend = "commit --amend";
+      ref = "add -u";
+      f = "fetch --prune";
+      fa = "fetch --all --prune";
 
       up = "pull --rebase --autostash";
 
@@ -58,6 +66,10 @@
 
       absorb = {
         maxStack = 50;
+      };
+
+      core = {
+        pager = ''${pkgs.gitAndTools.diff-so-fancy}/bin/diff-so-fancy | less --tabs=4 -FRX'';
       };
 
       pager = {
