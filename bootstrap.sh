@@ -10,12 +10,12 @@ mkdir -p "$HOME/.config/nixpkgs"
 
 prefix=${1:-$(hostname)}
 
-config="$HOME/nix/machines/$prefix/config.nix"
+config="$PWD/machines/$prefix/config.nix"
 if [ -e "$config" ]; then
     ln -sf "$config" "$HOME/.config/nixpkgs/config.nix"
 fi
 
-home="$HOME/nix/machines/$prefix/home.nix"
+home="$PWD/machines/$prefix/home.nix"
 if [ -e "$home" ]; then
     ln -sf "$home" "$HOME/.config/nixpkgs/home.nix"
 else

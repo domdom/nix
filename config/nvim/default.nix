@@ -62,7 +62,7 @@ in
       # elmPackages.elm-language-server
       elmPackages.elm-format
       to_clibboard
-    ]
+    ];
 
     programs.neovim = {
       enable = true;

@@ -3,8 +3,15 @@
 {
   imports = [
     ../../config/unix-base.nix
-    # terminal
-    ../../config/alacritty.nix
   ];
-  xdg.enable = true;
+
+  programs.bash = {
+    enable = true;
+    bashrcExtra = ''
+      [ -f "$HOME/.bashrc_local" ] && source "$HOME/.bashrc_local"
+      if [[ $- == *i* ]]; then
+        exec fish
+      fi
+    '';
+  };
 }
