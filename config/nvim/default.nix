@@ -60,7 +60,7 @@ in
   {
     home.packages = with pkgs; [
       # elmPackages.elm-language-server
-      elmPackages.elm-format
+      # elmPackages.elm-format
       to_clibboard
     ];
 

@@ -218,5 +218,7 @@ if has("autocmd")
     " Allow clipboard to persist after vim closes
     au VimLeave * call system("to_clipboard", getreg('+'))
 
+    autocmd FileType json setlocal shiftwidth=2 tabstop=2
+
     au VimEnter * echo '>^.^<'
 endif
