@@ -14,4 +14,9 @@
       fi
     '';
   };
+
+  home.sessionVariables = {
+    LOCALE_ARCHIVE = "${pkgs.darwin.locale}/lib/locale/locale-archive";
+    LOCALE_ARCHIVE_2_27 = "${pkgs.darwin.locale}/lib/locale/locale-archive";
+  };
 }
