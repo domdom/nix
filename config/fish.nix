@@ -29,9 +29,40 @@ in
           end
         end
       '';
+
+      functions = let
+        move-or-search = direction: direction2: {
+          description = "Depending on cursor position and current mode, either search ${direction} or move ${direction2} one line";
+          body = ''
+            if commandline --search-mode
+                commandline -f history-prefix-search-${direction}
+                return
+            end
+
+            if commandline --paging-mode
+                commandline -f ${direction2}-line
+                return
+            end
+
+            set lineno (commandline -L)
+
+            switch $lineno
+                case 1
+                    commandline -f history-prefix-search-${direction}
+
+                case '*'
+                    commandline -f ${direction2}-line
+            end
+          '';
+          };
+      in
+      {
+        up-or-prefix-search = move-or-search "backward" "up";
+        down-or-prefix-search = move-or-search "forward" "down";
+      };
       interactiveShellInit = ''
-        bind \cj history-search-forward
-        bind \ck history-search-backward
+        bind \cj down-or-prefix-search
+        bind \ck up-or-prefix-search
 
         # TODO: Remove this once this bug in fish 3.0 is removed.
         # Fish reorders the path given by bash's environment
