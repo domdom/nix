@@ -27,6 +27,20 @@
     skim
     ripgrep
     jq
+
+    clang
+
+    lsyncd
+    fswatch
+    htop
+    ytop
+    gotop
+    killall
+
+    diffutils
+
+    binutils
+
     # Better userland for macOS
     file
     coreutils
@@ -40,6 +54,7 @@
     cmake
 
     irssi
+    signal-desktop
   ];
 
   home.sessionVariables = {

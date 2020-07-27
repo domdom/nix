@@ -7,7 +7,7 @@
 
   xdg.configFile."ccache/config".text = ''
       cache_dir = ${config.home.homeDirectory}/data/ccache
-      max_size  = 300G
+      max_size  = 100G
   '';
 
   home.sessionVariables = {

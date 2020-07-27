@@ -4,6 +4,8 @@
 {
   home.packages = with pkgs; [
     gitAndTools.diff-so-fancy
+    gitAndTools.delta
+    gitAndTools.git-absorb
 
     (writeScriptBin "git-sync" ''
       #!/usr/bin/env bash
@@ -34,13 +36,15 @@
 
       l = ''!git log --graph --source --format=tformat:'%C(bold blue)%h%C(yellow):%Creset%s %C(green)%an%Creset%C(dim white) (%ar)%C(auto)%n%-d%Creset' '';
 
+      lr = ''!git l HEAD master origin/master --glob=refs/heads/master --glob=refs/heads/release-\\* --glob=refs/heads/origin/release-\\* --glob=refs/heads/origin/master'';
+
       # Verbose log
       va = "!git v --all";
 
       v = ''log --graph --source --stat \
               --format=format:'%w(0,0,1)%C(cyan)%H%Creset%C(auto)%d%Creset%n%n%C(yellow)%cD%Creset %C(green)(%cr)%Creset%n%C(yellow)%an %C(dim white)<%ae>%n%n%Creset%s%n%n%-b%n' '';
 
-      out = ''log --graph HEAD --not --remotes --source \
+      out = ''log --graph HEAD --remotes=origin/(master|release-*) \
           --format=tformat:'%C(cyan)%h%Creset%C(dim white):%Creset%<(90,trunc)%s %C(dim white)%<(17,trunc)%an%Creset %C(green)%cd%C(auto)%n%-D%Creset' '';
 
       s = "status --short";
@@ -71,10 +75,6 @@
         path = "~/personal/.gitconfig";
         condition = "gitdir:~/personal/**";
       }
-      { path = "$GIT_DIR/../.gitconfig"; }
-      { path = "$GIT_DIR/../../.gitconfig"; }
-      { path = "$GIT_DIR/../../../.gitconfig"; }
-      { path = "$GIT_DIR/../../../../.gitconfig"; }
     ];
 
     extraConfig = {
@@ -87,11 +87,15 @@
       };
 
       core = {
-        pager = ''${pkgs.gitAndTools.diff-so-fancy}/bin/diff-so-fancy | less --tabs=4 -FRX'';
+        pager = ''${pkgs.gitAndTools.delta}/bin/delta --theme ansi-dark --width=variable'';
+      };
+
+      interactive = {
+        diffFilter = ''${pkgs.gitAndTools.delta}/bin/delta --color-only'';
       };
 
       pager = {
-        log = ''less -FRX'';
+        log = ''${pkgs.gitAndTools.delta}/bin/delta --theme 1337'';
       };
     };
   };

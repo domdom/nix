@@ -98,7 +98,6 @@ in
 
         # Adds elm syntax and other features
         vim-elm-syntax
-        coc-nvim
 
         # syntax highlighting for fish_shell
         vim-fish

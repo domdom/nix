@@ -31,7 +31,7 @@ let
         git l --graph --color=always |
         fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
         --header 'Press CTRL-S to toggle sort' \
-        --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always | head -'$(tput lines) |
+        --preview 'grep -o "[a-f0-9]\{7,\}" (echo {} | psub) | xargs git show --color=always | diff-so-fancy | head -'$(tput lines) |
         grep -o "[a-f0-9]\{7,\}"
       '';
     }
@@ -41,7 +41,7 @@ let
       body = ''
         git -c color.status=always status --short |
         fzf-down -m --ansi --nth 2..,.. \
-        --preview '(git diff --color=always -- {-1} | sed 1,4d; ${cat} {-1}) | head -500' |
+        --preview 'begin git diff --color=always -- {-1} | sed 1,4d; ${cat} {-1}; end | head -500' |
         cut -c4- | sed 's/.* -> //'
       '';
     }
@@ -51,7 +51,7 @@ let
       body = ''
         git branch -a --color=always | grep -v '/HEAD\s' | sort |
         fzf-down --ansi --multi --tac --preview-window right:70% \
-        --preview 'git l --color=always $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$(tput lines) |
+        --preview 'git l --color=always (sed s/^..// <<< {} | cut -d" " -f1) | head -'$(tput lines) |
         sed 's/^..//' | cut -d' ' -f1 |
         sed 's#^remotes/##'
       '';
