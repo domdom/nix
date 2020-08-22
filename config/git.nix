@@ -68,6 +68,9 @@
       absorb = {
         maxStack = 50;
       };
+      commit = {
+        verbose = true;
+      };
     };
   };
 }
