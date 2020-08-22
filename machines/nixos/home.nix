@@ -7,7 +7,7 @@
     # bspwm, terminal etc
     ../../config/i3wm.nix
 
-    ../../config/work.nix
+    ../../config/work
   ];
   xdg.enable = true;
 }
