@@ -1,4 +1,4 @@
-{lib, pkgs, ...}:
+{lib, pkgs, config, ...}:
 
 let
   jdk7 = (pkgs.callPackage jdk/jdk7-linux.nix {});
@@ -41,6 +41,6 @@ in
     ];
 
     # Setup a dev environment for cremerie
-    home.file."work/c/shell.nix".source = ./cremerie-shell.nix;
+    home.file."work/c/shell.nix".source = config.lib.file.mkOutOfStoreSymlink ./cremerie-shell.nix;
     home.file."work/c/.envrc".text = ''eval "$(lorri direnv)"'';
   }
