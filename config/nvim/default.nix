@@ -47,23 +47,8 @@ let
       rev = "d614325a037982489574012e4db04d7f8f134c17";
     };
   };
-  to_clibboard = pkgs.writeScriptBin "to_clibboard" ''
-    #! /usr/bin/env nix-shell
-    #! nix-shell -i sh ${if pkgs.hostPlatform.isMacOS then "" else "-p xsel"}
-
-    ${
-      if pkgs.hostPlatform.isMacOS then "pbcopy"
-      else "xsel -b"
-    }
-  '';
 in
   {
-    home.packages = with pkgs; [
-      # elmPackages.elm-language-server
-      # elmPackages.elm-format
-      to_clibboard
-    ];
-
     programs.neovim = {
       enable = true;
       vimAlias = true;

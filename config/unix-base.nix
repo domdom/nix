@@ -53,7 +53,27 @@
     lsyncd
     fswatch
     signal-desktop
+  ] ++ [
+    (pkgs.writeScriptBin "to_clipboard"
+    (if hostPlatform.isMacOS then ''
+      #!/bin/sh
+      pbcopy
+    '' else ''
+      #!/usr/bin/env nix-shell
+      #!nix-shell -i sh -p xsel
+      xsel --input --clipboard
+    ''))
+    (pkgs.writeScriptBin "from_clipboard"
+    (if hostPlatform.isMacOS then ''
+      #!/bin/sh
+      pbpaste
+    '' else ''
+      #!/usr/bin/env nix-shell
+      #!nix-shell -i sh -p xsel
+      xsel --output --clipboard
+    ''))
   ];
+
 
   programs.home-manager.enable = true;
 
