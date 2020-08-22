@@ -3,32 +3,15 @@
 
 {
   home.packages = with pkgs; [
-    gitAndTools.diff-so-fancy
-    gitAndTools.delta
-    gitAndTools.git-absorb
-
-    (writeScriptBin "git-sync" ''
-      #!/usr/bin/env bash
-
-      git for-each-ref --format='%(refname:short) %(upstream:short)' "refs/heads/**" |
-          while read local_branch remote_branch; do
-              [[ -z "$remote_branch" ]] && continue
-              [[ "$(git rev-parse "$local_branch")" == "$(git rev-parse "$remote_branch")" ]] && continue
-
-              if [[ "$local_branch" == "$(git rev-parse --abbrev-ref HEAD)" ]]; then
-                  git pull --rebase --autostash
-              else
-                  if git merge-base --is-ancestor "$local_branch" "$remote_branch"; then
-                      git branch -f "$local_branch" "$remote_branch"
-                  fi
-              fi
-          done
-    '')
+      gitAndTools.git-absorb
   ];
+
   programs.git = {
     enable = true;
 
     package = pkgs.gitAndTools.gitFull;
+
+    delta.enable = true;
 
     aliases = {
       # One-line log
@@ -84,18 +67,6 @@
 
       absorb = {
         maxStack = 50;
-      };
-
-      core = {
-        pager = ''${pkgs.gitAndTools.delta}/bin/delta'';
-      };
-
-      interactive = {
-        diffFilter = ''${pkgs.gitAndTools.delta}/bin/delta --color-only'';
-      };
-
-      pager = {
-        log = ''${pkgs.gitAndTools.delta}/bin/delta'';
       };
     };
   };
