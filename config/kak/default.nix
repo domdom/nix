@@ -1,13 +1,10 @@
 {pkgs, config, ...}:
 
 {
-  programs.kakoune = {
-    enable = true;
-    extraConfig = builtins.readFile ./kakrc;
-    #plugins = with pkgs; [
-      #kakounePlugins.fzf-kak
-    #];
-  };
+  home.packages = [ pkgs.kakoune ];
+
+  xdg.configFile."kak/kakrc".source = config.lib.file.mkOutOfStoreSymlink ./kakrc;
+ 
   home.sessionVariables = {
     EDITOR = "kak";
   };

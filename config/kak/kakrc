@@ -32,6 +32,13 @@ plug "insipx/kak-crosshairs" config %{
     set-face global crosshairs_column default,rgb:eeeeee
 }
 
+# TODO:
+# - add fzf plugins
+# - add better cpp-highlight features
+# - add kak-lsp
+# - add undo file support
+
+
 #####################################################
 # Configuration
 #####################################################
@@ -42,6 +49,7 @@ add-highlighter global/ number-lines
 # TODO:
 # - scrollOff lines
 # - highlight cursor line number
+# - disable auto comment continue
 
 #####################################################
 # Keyboard mapping
