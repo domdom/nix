@@ -20,7 +20,6 @@
   ];
 
   home.packages = with pkgs; [
-    home-manager
     # fzf and fd go together for use in vim and on commandline
     fzf fd
     # like fzf, but in rust
@@ -54,6 +53,8 @@
     irssi
     signal-desktop
   ];
+
+  programs.home-manager.enable = true;
 
   home.sessionVariables = {
     # Home cleanup
