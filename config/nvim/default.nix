@@ -104,6 +104,6 @@ in
       ];
     };
     home.sessionVariables = {
-      EDITOR = "${config.programs.neovim.finalPackage}/bin/nvim";
+      # EDITOR = "${config.programs.neovim.finalPackage}/bin/nvim";
     };
   }
