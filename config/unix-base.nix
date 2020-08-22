@@ -27,8 +27,6 @@
     ripgrep
     jq
 
-    lsyncd
-    fswatch
     htop
     ytop
     gotop
@@ -51,6 +49,9 @@
     cmake
 
     irssi
+  ] ++ lib.optionals (pkgs.hostPlatform.isMacOS == false) [
+    lsyncd
+    fswatch
     signal-desktop
   ];
 
