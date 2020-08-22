@@ -228,7 +228,7 @@
         end
   '';
   xsession.windowManager.i3 = let
-    modifier = "Mod1";
+    modifier = "Mod4";
   in
   {
     enable = true;
