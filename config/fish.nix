@@ -6,6 +6,7 @@ let
   settings = (import ./shell.nix) { config = config; };
 in
   {
+    programs.direnv.enable = true;
     programs.fish = {
       enable = true;
       shellAbbrs = settings.aliases;
