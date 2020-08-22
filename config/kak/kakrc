@@ -32,6 +32,12 @@ plug "insipx/kak-crosshairs" config %{
     set-face global crosshairs_column default,rgb:eeeeee
 }
 
+hook global RegisterModified '"' %{ nop %sh{
+    printf %s "$kak_main_reg_dquote" | to_clipboard
+}}
+map global normal P '!from_clipboard<ret>'
+map global normal p '<a-!>from_clipboard<ret>'
+
 # TODO:
 # - add fzf plugins
 # - add better cpp-highlight features
