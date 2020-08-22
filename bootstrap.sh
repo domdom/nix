@@ -25,5 +25,5 @@ fi
 
 export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
 
-nix-shell -v -p home-manager --run "home-manager switch --show-trace"
-#nix-shell '<home-manager>' -A install
+#nix-shell -v -p home-manager --run "home-manager switch --show-trace"
+nix-shell '<home-manager>' -A install
