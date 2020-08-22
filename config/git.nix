@@ -87,7 +87,7 @@
       };
 
       core = {
-        pager = ''${pkgs.gitAndTools.delta}/bin/delta --theme ansi-dark --width=variable'';
+        pager = ''${pkgs.gitAndTools.delta}/bin/delta'';
       };
 
       interactive = {
@@ -95,7 +95,7 @@
       };
 
       pager = {
-        log = ''${pkgs.gitAndTools.delta}/bin/delta --theme 1337'';
+        log = ''${pkgs.gitAndTools.delta}/bin/delta'';
       };
     };
   };
