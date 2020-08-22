@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./kak.nix
+    ./kak
     ./git.nix
     ./fzf.nix
     ./git-fzf.nix

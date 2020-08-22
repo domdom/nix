@@ -1,0 +1,51 @@
+# bootstrap the plugin manager
+nop %sh{
+    plugins="$HOME/.config/kak/plugins"
+    mkdir -p $plugins
+    [ ! -e "$plugins/plug.kak" ] && git clone -q https://github.com/robertmeta/plug.kak.git "$plugins/plug.kak"
+}
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
+
+
+
+#####################################################
+# Plugins
+#####################################################
+
+# This has a bug
+plug "robertmeta/plug.kak"
+
+plug "andreyorst/smarttab.kak" config %{
+    set-option global softtabstop 4
+    set-option global tabstop 4
+    hook global WinSetOption filetype=(.*) expandtab
+    hook global WinSetOption filetype=(makefile|gas) noexpandtab
+}
+
+plug "evanrelf/primer.kak" config %{
+    colorscheme primer
+}
+
+plug "insipx/kak-crosshairs" config %{
+    cursorline
+    set-face global crosshairs_line default,rgb:eeeeee
+    set-face global crosshairs_column default,rgb:eeeeee
+}
+
+#####################################################
+# Configuration
+#####################################################
+
+# Adds number lines
+add-highlighter global/ number-lines
+
+# TODO:
+# - scrollOff lines
+# - highlight cursor line number
+
+#####################################################
+# Keyboard mapping
+#####################################################
+# <backspace> is the same as <c-h>, but my terminal turns <c-h> into <backspace>
+map global normal <backspace> ': bp<ret>'
+map global normal <c-l> ': bn<ret>'
