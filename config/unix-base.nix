@@ -28,8 +28,6 @@
     ripgrep
     jq
 
-    clang
-
     lsyncd
     fswatch
     htop
