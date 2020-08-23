@@ -61,17 +61,16 @@ in
         up-or-prefix-search = move-or-search "backward" "up";
         down-or-prefix-search = move-or-search "forward" "down";
       };
+      shellInit = ''
+          set -p fish_function_path ${pkgs.fish-foreign-env}/share/fish-foreign-env/functions
+          if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+            fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+          end
+          set -e fish_function_path[1]
+      '';
       interactiveShellInit = ''
         bind \cj down-or-prefix-search
         bind \ck up-or-prefix-search
-
-        # TODO: Remove this once this bug in fish 3.0 is removed.
-        # Fish reorders the path given by bash's environment
-        set PATH $HOME/.nix-profile/bin (string match -v $HOME/.nix-profile/bin $PATH)
-        # Then add local bin directory
-        set PATH $HOME/.local/bin (string match -v $HOME/.local/bin $PATH)
-        # Add my bin scripts
-        set PATH $HOME/bin (string match -v $HOME/bin $PATH)
 
         ${optionalString config.programs.fzf.enable ''
           source ${pkgs.fzf}/share/fzf/key-bindings.fish
