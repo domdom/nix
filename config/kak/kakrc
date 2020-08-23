@@ -6,8 +6,6 @@ nop %sh{
 }
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
-
-
 #####################################################
 # Plugins
 #####################################################
@@ -32,11 +30,22 @@ plug "insipx/kak-crosshairs" config %{
     set-face global crosshairs_column default,rgb:eeeeee
 }
 
+# Required by connect.kak
+plug "alexherbo2/prelude.kak"
+plug "alexherbo2/connect.kak" config %{
+    require-module connect-fzf
+    set-option global connect_environment %{
+        source /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+    }
+}
+
 hook global RegisterModified '"' %{ nop %sh{
     printf %s "$kak_main_reg_dquote" | to_clipboard
 }}
-map global normal P '!from_clipboard<ret>'
-map global normal p '<a-!>from_clipboard<ret>'
+
+#map global normal p '<a-O>kp'
+map global user s ': source "%val{config}/kakrc"<ret>'
+
 
 # TODO:
 # - add fzf plugins
@@ -56,6 +65,8 @@ add-highlighter global/ number-lines
 # - scrollOff lines
 # - highlight cursor line number
 # - disable auto comment continue
+# - add highlighter for llvm IR
+# - add highlighter for groovy
 
 #####################################################
 # Keyboard mapping
@@ -63,3 +74,8 @@ add-highlighter global/ number-lines
 # <backspace> is the same as <c-h>, but my terminal turns <c-h> into <backspace>
 map global normal <backspace> ': bp<ret>'
 map global normal <c-l> ': bn<ret>'
+
+map global normal <c-p> ': fzf-files<ret>'
+map global normal <c-e> ': fzf-buffers<ret>'
+
+
