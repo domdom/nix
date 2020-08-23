@@ -3,20 +3,18 @@
 {
   imports = [
     ../../config/unix-base.nix
+    ../../config/kitty.nix
   ];
 
-  programs.bash = {
-    enable = true;
-    bashrcExtra = ''
-      [ -f "$HOME/.bashrc_local" ] && source "$HOME/.bashrc_local"
-      if [[ $- == *i* ]]; then
-        exec fish
-      fi
-    '';
-  };
+  home.packages = [
+    pkgs.alacritty
+  ];
 
-  home.sessionVariables = {
-    LOCALE_ARCHIVE = "${pkgs.darwin.locale}/lib/locale/locale-archive";
-    LOCALE_ARCHIVE_2_27 = "${pkgs.darwin.locale}/lib/locale/locale-archive";
-  };
+  #programs.bash.enable = true;
+  home.file.".bashrc".text = ''
+    if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh; then
+         source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    fi
+    source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+  '';
 }
