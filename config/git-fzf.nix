@@ -31,7 +31,7 @@ let
         git l --graph --color=always |
         fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
         --header 'Press CTRL-S to toggle sort' \
-        --preview 'grep -o "[a-f0-9]\{7,\}" (echo {} | psub) | xargs git show --color=always | diff-so-fancy | head -'$(tput lines) |
+        --preview 'grep -o "[a-f0-9]\{7,\}" (echo {} | psub) | xargs git show --color=always | head -'$(tput lines) |
         grep -o "[a-f0-9]\{7,\}"
       '';
     }
