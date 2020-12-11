@@ -7,6 +7,7 @@
     ./termite.nix
     ./urxvt.nix
     ./st.nix
+    ./kitty.nix
   ];
 
   home.packages = with pkgs; [
@@ -208,7 +209,7 @@
   };
 
   xresources.properties = {
-    "Xcursor.size" = 24;
+    "Xcursor.size" = 48;
     "Xft.dpi" = 136;
     "Xft.autohint" = 0;
     "Xft.lcdfilter" = "lcddefault";
@@ -257,7 +258,7 @@
         );
       in
       {
-        "${modifier}+Return"   = "exec ${pkgs.termite}/bin/termite";
+        "${modifier}+Return"   = "exec ${pkgs.kitty}/bin/kitty";
         "${modifier}+space"    = "exec ${pkgs.dmenu}/bin/dmenu_run";
 
 
