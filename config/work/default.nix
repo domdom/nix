@@ -5,6 +5,7 @@ let
   jdk8 = (pkgs.callPackage jdk/jdk8-linux.nix {});
   jdk9 = (pkgs.callPackage jdk/jdk9-linux.nix {});
   jdk11 = (pkgs.callPackage jdk/jdk11-linux.nix {});
+  #clang-tools = (pkgs.llvmPackages_10.clang-tools.override { stdenv = pkgs.llvmPackages_10.stdenv; });
 in
   {
     home.packages = with pkgs; [
@@ -12,15 +13,29 @@ in
       openconnect
       thunderbird
       firefox
+      zoom-us
+
 
       # Code review
       (callPackage ./rbtools.nix {})
 
       # IDE
       jetbrains.clion
+      jetbrains.pycharm-community
 
       # Help with reducing test cases
       creduce
+      valgrind
+      kcachegrind
+      bloaty
+      python27
+      python38
+
+      sublime3
+
+      # offline documentation browser
+      zeal
+      graphviz
 
       # environment setup
       lorri
@@ -36,6 +51,7 @@ in
       gnumake
       ninja
       # Optional
+      clang-tools
       ccache
       include-what-you-use
     ];

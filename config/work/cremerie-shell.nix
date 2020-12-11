@@ -1,7 +1,6 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-
     jdk7 = (pkgs.callPackage jdk/jdk7-linux.nix {});
     jdk8 = (pkgs.callPackage jdk/jdk8-linux.nix {});
     jdk9 = (pkgs.callPackage jdk/jdk9-linux.nix {});
@@ -15,6 +14,7 @@ in
       #################################
       # Build inputs
       python27   # build.py, tests
+      python39
       clang      # compilation
       lld        # linker
       bison flex
@@ -29,6 +29,10 @@ in
       jdk9
       jdk11
     ];
+
+    shellHook = ''
+      export PATH=/home/domferre/bin:$PATH
+    '';
 
     JDK7 = "${jdk7}";
     JDK8 = "${jdk8}";
