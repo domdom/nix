@@ -17,6 +17,8 @@
     ./ccache.nix
 
     ./pass.nix
+
+    ./kitty.nix
   ];
 
   home.packages = with pkgs; [
@@ -47,6 +49,12 @@
     tree
     clang-tools
     cmake
+
+    #screen recording
+    asciinema
+
+    # Configuration editing
+    augeas
 
     irssi
   ] ++ lib.optionals (pkgs.hostPlatform.isMacOS == false) [
