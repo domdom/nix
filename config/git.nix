@@ -61,6 +61,11 @@
     ];
 
     extraConfig = {
+      delta = {
+      	syntax-theme = "Github";
+      	light = true;
+      };
+
       push = {
         default = "current";
       };
