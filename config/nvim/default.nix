@@ -59,12 +59,18 @@ in
         # Color scheme
         vim-one
 
-        deoplete-nvim
+        # deoplete-nvim
         ## prosession isn't available, so wont bother with obsession
         # Adds automatic session management
         # vim-obsession
         # Automatically load session based on folder
         # vim-prosession
+
+        # Language server
+        # LanguageClient-neovim
+        coc-nvim
+        #coc-clangd
+        #coc-json
 
         # Git gutter
         vim-signify
@@ -91,4 +97,18 @@ in
     home.sessionVariables = {
       # EDITOR = "${config.programs.neovim.finalPackage}/bin/nvim";
     };
+    home.packages = with pkgs; [
+      # Required for coc-nvim
+      nodejs
+    ];
   }
+
+
+
+
+
+
+
+
+
+

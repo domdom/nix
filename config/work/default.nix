@@ -22,6 +22,7 @@ in
       # IDE
       jetbrains.clion
       jetbrains.pycharm-community
+      jetbrains.idea-community
 
       # Help with reducing test cases
       creduce

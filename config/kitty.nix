@@ -31,11 +31,11 @@
       color0  #1b1f23
       color1  #d73a49
       color2  #28a745
-      color3  #f66a0a
+      color3  #f68a0a
       color4  #0364d2
       color5  #6e3ec7
       color6  #28c0ac
-      color7  #6a737d
+      color7  #d6d9dc
       color8  #3e4853
       color9  #f2717f
       color10 #50c76b
@@ -43,7 +43,7 @@
       color12 #4f96e6
       color13 #a883ee
       color14 #68dfcf
-      color15 #bbc0c6
+      color15 #ffffff
     '';
 
     /*

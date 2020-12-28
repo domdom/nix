@@ -184,6 +184,27 @@ set t_vb=
 set clipboard^=unnamed,unnamedplus
 vmap <LeftRelease> "*ygv
 
+" LanguageClient
+" =======================================
+" 'cpp': ['ssh voz cd /dev/shm/domferre/work/c/master; cp build-Release/compile_commands.json ./; clangd'],
+" 'cpp': ['ssh', 'voz', 'cd /home/domferre/work/c/master; cp build-Release/compile_commands.json ./; clangd'],
+            "\   'cpp': [
+            "\           'nix-shell', expand('~/work/c/shell.nix'),
+            "\           '--run',
+            "\           '/nix/store/wm82acw73nig1hwabhc9rx19ahb4hq94-clion-2020.2.3/clion-2020.2.3/bin/clang/linux/clangd'
+            "\   ],
+let g:LanguageClient_serverCommands = {
+            \    'cpp': [ 'parfait-lsp', '--record', expand('~/parfait-lsp.log') ],
+            \    'c': [ 'parfait-lsp', '--record', expand('~/parfait-lsp.log') ]
+            \ }
+
+
+let g:LanguageClient_loggingFile = expand('~/LanguageClient.log')
+
+let g:LanguageClient_serverStderr = expand('~/server.txt')
+
+nnoremap <silent> glk :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gld :call LanguageClient#textDocument_definition()<CR>
 " =======================================
 " Autocmd
 " =======================================
@@ -193,6 +214,9 @@ if has("autocmd")
     " reopening a file
     au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
                 \| exe "normal! g'\"" | endif
+
+    " Custom file type to test language server
+    au BufNewFile,BufRead *.dom set filetype=dom
 
     " .def files are often cpp files in clang
     au BufNewFile,BufRead *.{def,inc} set filetype=cpp
@@ -222,3 +246,13 @@ if has("autocmd")
 
     au VimEnter * echo '>^.^<'
 endif
+
+hi default CocErrorUnderline    cterm=undercurl gui=undercurl guisp=#ff0000
+hi default CocWarningUnderline  cterm=undercurl gui=undercurl guisp=#ff922b
+hi default CocInfoUnderline     cterm=undercurl gui=undercurl guisp=#fab005
+hi default CocHintUnderline     cterm=undercurl gui=undercurl guisp=#15aabf
+hi default link CocErrorHighlight   CocErrorUnderline
+hi default link CocWarningHighlight CocWarningUnderline
+hi default link CocInfoHighlight    CocInfoUnderline
+hi default link CocHintHighlight    CocHintUnderline
+

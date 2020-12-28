@@ -10,8 +10,7 @@ source "%val{config}/plugins/plug.kak/rc/plug.kak"
 # Plugins
 #####################################################
 
-# This has a bug
-plug "robertmeta/plug.kak"
+plug "robertmeta/plug.kak" noload
 
 plug "andreyorst/smarttab.kak" config %{
     set-option global softtabstop 4
@@ -20,14 +19,18 @@ plug "andreyorst/smarttab.kak" config %{
     hook global WinSetOption filetype=(makefile|gas) noexpandtab
 }
 
-plug "evanrelf/primer.kak" config %{
-    colorscheme primer
+# This is basically to treat 'x' as a line text object
+plug 'delapouite/kakoune-text-objects' %{
+    text-object-map
 }
 
+# Colorscheme
+plug "evanrelf/primer.kak"
+# Cursor line
 plug "insipx/kak-crosshairs" config %{
-    cursorline
     set-face global crosshairs_line default,rgb:eeeeee
     set-face global crosshairs_column default,rgb:eeeeee
+    cursorline
 }
 
 # Required by connect.kak
@@ -35,16 +38,19 @@ plug "alexherbo2/prelude.kak"
 plug "alexherbo2/connect.kak" config %{
     require-module connect-fzf
     set-option global connect_environment %{
-        source /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+        # source /nix/var/nix/profiles/default/etc/profile.d/nix.sh
     }
 }
 
-hook global RegisterModified '"' %{ nop %sh{
-    printf %s "$kak_main_reg_dquote" | to_clipboard
-}}
+
+eval %sh{kak-lsp --kakoune -s $kak_session}
+set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /home/domferre/kak-lsp.log"
+hook global WinSetOption filetype=(c|cpp) %{
+    lsp-enable-window
+}
 
 #map global normal p '<a-O>kp'
-map global user s ': source "%val{config}/kakrc"<ret>'
+#map global user s ': source "%val{config}/kakrc"<ret>'
 
 
 # TODO:
@@ -52,6 +58,10 @@ map global user s ': source "%val{config}/kakrc"<ret>'
 # - add better cpp-highlight features
 # - add kak-lsp
 # - add undo file support
+
+hook global WinSetOption filetype=(git-commit) %{
+    autowrap-enable
+}
 
 
 #####################################################
@@ -77,5 +87,4 @@ map global normal <c-l> ': bn<ret>'
 
 map global normal <c-p> ': fzf-files<ret>'
 map global normal <c-e> ': fzf-buffers<ret>'
-
 
