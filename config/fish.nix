@@ -6,6 +6,7 @@ let
   settings = (import ./shell.nix) { config = config; };
 in
   {
+    home.packages =  [ pkgs.fish-foreign-env ];
     programs.direnv.enable = true;
     programs.fish = {
       enable = true;

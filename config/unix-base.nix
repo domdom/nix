@@ -30,7 +30,6 @@
     jq
 
     htop
-    ytop
     gotop
     killall
 
